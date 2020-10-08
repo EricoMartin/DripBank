@@ -8,7 +8,7 @@ Commit messages must adhere to the conventional commits spec defined here https:
 
 ## <a name="coc"></a> Code of Conduct
 
-Please read and follow our [code of conduct](https://github.com//EricoMartin/DripBank/tree/master/CODE_OF_CONDUCT.md)
+Please read and follow our [code of conduct](https://github.com/EricoMartin/DripBank/blob/main/CODE_OF_CONDUCT.md)
 
 
 ### Before working on a new feature:
