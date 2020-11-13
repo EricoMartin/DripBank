@@ -1,20 +1,9 @@
 package com.mobilefintech09.dripbank;
 
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
-import android.widget.EditText;
-import android.widget.ListView;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
-import com.scaledrone.lib.Listener;
-import com.scaledrone.lib.Room;
-import com.scaledrone.lib.RoomListener;
-import com.scaledrone.lib.Scaledrone;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -23,77 +12,52 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements
-        RoomListener {
+public class MainActivity extends AppCompatActivity {
 
-    private String channelID = "bfg6PpiJIBVh6Qew";
-    private String roomName = "observable-room";
-    private EditText editText;
-    private Scaledrone scaledrone;
+
+    List<Integer> iconList = new ArrayList<>();
+    List<String> textList = new ArrayList<>();
+
+    //Add a List of tags to dynamically call the different activity classes
+    List<String> tagList = new ArrayList<>();
+
+    private static final String TAG = "MainActivity";
     private AppBarConfiguration mAppBarConfiguration;
-    private MessageAdapter messageAdapter;
-    private ListView messagesView;
 
+
+
+   // CardView mCardView, mCardView1, mCardView2, mCardView3, mCardView4, mCardView5;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+       Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        editText = (EditText) findViewById(R.id.editText);
+
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_profile, R.id.nav_gallery, R.id.nav_slideshow)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        messageAdapter = new MessageAdapter(this);
-        messagesView = (ListView) findViewById(R.id.messages_view);
-        messagesView.setAdapter(messageAdapter);
-
-        MemberData data = new MemberData(getRandomName(), getRandomColor());
-
-        scaledrone = new Scaledrone(channelID, data);
-        scaledrone.connect(new Listener() {
-            @Override
-            public void onOpen() {
-                System.out.println("Scaledrone connection open");
-                scaledrone.subscribe(roomName, MainActivity.this);
-            }
-
-            @Override
-            public void onOpenFailure(Exception ex) {
-                System.err.println(ex);
-            }
-
-            @Override
-            public void onFailure(Exception ex) {
-                System.err.println(ex);
-            }
-
-            @Override
-            public void onClosed(String reason) {
-                System.err.println(reason);
-            }
-        });
+        //Display the recyclerview and its content
+            displayContent();
     }
 
-    public void sendMessage(View view) {
-        String message = editText.getText().toString();
-        if (message.length() > 0) {
-            scaledrone.publish(roomName, message);
-            editText.getText().clear();
-        }
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,85 +73,37 @@ public class MainActivity extends AppCompatActivity implements
                 || super.onSupportNavigateUp();
     }
 
-    // Successfully connected to Scaledrone room
-    @Override
-    public void onOpen(Room room) {
-        System.out.println("Connected to room");
+
+    private void displayContent(){
+        final RecyclerView mRecyclerView = findViewById(R.id.recycler);
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
+        mRecyclerView.setLayoutManager(gridLayoutManager);
+
+        iconList.add(R.drawable.person_icon);
+        iconList.add(R.drawable.chat_icon);
+        iconList.add(R.drawable.deposit_icon);
+        iconList.add(R.drawable.withdraw_icon);
+        iconList.add(R.drawable.transfer_icon);
+        iconList.add(R.drawable.faq_icon);
+
+        textList.add("Profile");
+        textList.add("Messenger");
+        textList.add("Deposit");
+        textList.add("Withdraw");
+        textList.add("Transfer");
+        textList.add("FAQ's");
+
+        tagList.add("profile");
+        tagList.add("messenger");
+        tagList.add("deposit");
+        tagList.add("withdraw");
+        tagList.add("transfer");
+        tagList.add("faq");
+
+        mRecyclerView.setAdapter(new IconRecyclerAdapter(this, iconList, textList, tagList));
     }
 
-    // Connecting to Scaledrone room failed
-    @Override
-    public void onOpenFailure(Room room, Exception ex) {
-        System.err.println(ex);
-    }
-
-    // Received a message from Scaledrone room
-
-
-    @Override
-    public void onMessage(Room room, com.scaledrone.lib.Message receivedMessage) {
-        final ObjectMapper mapper = new ObjectMapper();
-        try {
-            final MemberData data = mapper.treeToValue(receivedMessage.getMember().getClientData(), MemberData.class);
-            boolean belongsToCurrentUser = receivedMessage.getClientID().equals(scaledrone.getClientID());
-            final Message message = new Message(receivedMessage.getData().asText(), data, belongsToCurrentUser);
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    messageAdapter.add(message);
-                    messagesView.setSelection(messagesView.getCount() - 1);
-                }
-            });
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String getRandomName() {
-        String[] adjs = {"autumn", "hidden", "bitter", "misty", "silent", "empty", "dry", "dark", "summer", "icy", "delicate", "quiet", "white", "cool", "spring", "winter", "patient", "twilight", "dawn", "crimson", "wispy", "weathered", "blue", "billowing", "broken", "cold", "damp", "falling", "frosty", "green", "long", "late", "lingering", "bold", "little", "morning", "muddy", "old", "red", "rough", "still", "small", "sparkling", "throbbing", "shy", "wandering", "withered", "wild", "black", "young", "holy", "solitary", "fragrant", "aged", "snowy", "proud", "floral", "restless", "divine", "polished", "ancient", "purple", "lively", "nameless"};
-        String[] nouns = {"waterfall", "river", "breeze", "moon", "rain", "wind", "sea", "morning", "snow", "lake", "sunset", "pine", "shadow", "leaf", "dawn", "glitter", "forest", "hill", "cloud", "meadow", "sun", "glade", "bird", "brook", "butterfly", "bush", "dew", "dust", "field", "fire", "flower", "firefly", "feather", "grass", "haze", "mountain", "night", "pond", "darkness", "snowflake", "silence", "sound", "sky", "shape", "surf", "thunder", "violet", "water", "wildflower", "wave", "water", "resonance", "sun", "wood", "dream", "cherry", "tree", "fog", "frost", "voice", "paper", "frog", "smoke", "star"};
-        return (
-                adjs[(int) Math.floor(Math.random() * adjs.length)] +
-                        "_" +
-                        nouns[(int) Math.floor(Math.random() * nouns.length)]
-        );
-    }
-
-    private String getRandomColor() {
-        Random r = new Random();
-        StringBuffer sb = new StringBuffer("#");
-        while(sb.length() < 7){
-            sb.append(Integer.toHexString(r.nextInt()));
-        }
-        return sb.toString().substring(0, 7);
-    }
 }
 
-class MemberData {
-    private String name;
-    private String color;
 
-    public MemberData(String name, String color) {
-        this.name = name;
-        this.color = color;
-    }
 
-    public MemberData() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    @Override
-    public String toString() {
-        return "MemberData{" +
-                "name='" + name + '\'' +
-                ", color='" + color + '\'' +
-                '}';
-    }
-}

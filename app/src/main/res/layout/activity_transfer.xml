@@ -44,15 +44,33 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="#EDEDED"
+        android:text="Amount"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:text="Amount"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.59" />
+        app:layout_constraintVertical_bias="0.648" />
+
+    <TextView
+        android:id="@+id/text_slideshow4"
+        android:layout_width="350dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="#EDEDED"
+        android:text="Bank Name"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.545" />
 
     <TextView
         android:id="@+id/text_slideshow3"
@@ -60,21 +78,21 @@
         android:layout_height="35dp"
         android:layout_marginTop="8dp"
         android:background="#EDEDED"
+        android:text="Pin"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:text="Pin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.706" />
+        app:layout_constraintVertical_bias="0.742" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="212dp"
         android:layout_height="46dp"
-        android:text="@string/cash_out"
+        android:text="@string/transfer"
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
         android:textSize="24sp"
