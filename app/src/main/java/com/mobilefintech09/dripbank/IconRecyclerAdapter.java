@@ -76,7 +76,7 @@ public class IconRecyclerAdapter extends RecyclerView.Adapter<IconRecyclerAdapte
                         intent = new Intent(mContext, ProfileActivity.class);
                         intent.putExtra("Current Position: ", 1);
                         mContext.startActivity(intent);
-
+                            break;
                         case "messenger" :
                             intent = new Intent(mContext, ChatActivity.class);
                             intent.putExtra("Current Position: ", 2);
