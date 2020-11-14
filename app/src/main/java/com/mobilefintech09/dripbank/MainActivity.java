@@ -1,9 +1,17 @@
 package com.mobilefintech09.dripbank;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.google.android.material.navigation.NavigationView;
+import com.mobilefintech09.dripbank.entities.AccessToken;
+import com.mobilefintech09.dripbank.network.ApiService;
+import com.mobilefintech09.dripbank.network.RetrofitBuilder;
+import com.mobilefintech09.dripbank.network.TokenManager;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -18,7 +26,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
+
+    ApiService service;
+    Call<AccessToken> call;
+    TokenManager mTokenManager;
 
 
     List<Integer> iconList = new ArrayList<>();
@@ -53,8 +69,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        service = RetrofitBuilder.createService(ApiService.class);
+        mTokenManager = TokenManager.getInstance(getSharedPreferences("prefs", MODE_PRIVATE));
+
         //Display the recyclerview and its content
             displayContent();
+
     }
 
 
@@ -64,6 +84,37 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if(id == R.id.action_sign_out){
+            signOut();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void signOut() {
+        call = service.logout();
+
+        call.enqueue(new Callback<AccessToken>() {
+            @Override
+            public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
+                Log.w( TAG,"onResponse: " + response);
+
+                    mTokenManager.deleteToken();
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+
+            }
+
+            @Override
+            public void onFailure(Call<AccessToken> call, Throwable t) {
+                Log.w(TAG, "onFailure: " + t.getMessage());
+            }
+        });
     }
 
     @Override

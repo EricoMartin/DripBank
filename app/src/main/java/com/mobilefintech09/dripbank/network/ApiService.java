@@ -22,8 +22,7 @@ public interface ApiService {
     Call<AccessToken> login(@Field("username") String username, @Field("password") String password);
 
     @POST("logout")
-    @FormUrlEncoded
-    Call<AccessToken> logout(@Field("username") String username);
+    Call<AccessToken> logout();
 
     @GET("client/{id}")
     Call<AccessToken> getClient();
