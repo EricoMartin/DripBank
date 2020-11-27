@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.google.android.material.navigation.NavigationView;
 import com.mobilefintech09.dripbank.entities.AccessToken;
 import com.mobilefintech09.dripbank.network.ApiService;
@@ -56,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -71,6 +69,12 @@ public class MainActivity extends AppCompatActivity {
 
         service = RetrofitBuilder.createService(ApiService.class);
         mTokenManager = TokenManager.getInstance(getSharedPreferences("prefs", MODE_PRIVATE));
+
+        if(mTokenManager.getToken() == null){
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         //Display the recyclerview and its content
             displayContent();

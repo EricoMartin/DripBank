@@ -16,6 +16,7 @@ import com.mobilefintech09.dripbank.entities.AccessToken;
 import com.mobilefintech09.dripbank.entities.ApiError;
 import com.mobilefintech09.dripbank.network.ApiService;
 import com.mobilefintech09.dripbank.network.RetrofitBuilder;
+import com.mobilefintech09.dripbank.network.SharedPreferenceManager;
 import com.mobilefintech09.dripbank.network.TokenManager;
 import com.mobilefintech09.dripbank.network.Utils;
 
@@ -31,6 +32,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+
+    SharedPreferenceManager mSharedPreferenceManager;
 
     private static final String TAG = "LoginActivity";
     @BindView(R.id.email)

@@ -1,5 +1,6 @@
 package com.mobilefintech09.dripbank;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -18,8 +19,6 @@ import com.mobilefintech09.dripbank.network.RetrofitBuilder;
 import com.mobilefintech09.dripbank.network.TokenManager;
 import com.mobilefintech09.dripbank.network.Utils;
 
-import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +28,6 @@ import butterknife.OnClick;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Converter;
 import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -50,6 +48,12 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
         ButterKnife.bind(this);
 
         service = RetrofitBuilder.createService(ApiService.class);

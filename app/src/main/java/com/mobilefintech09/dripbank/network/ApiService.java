@@ -1,15 +1,15 @@
 package com.mobilefintech09.dripbank.network;
 
 import com.mobilefintech09.dripbank.entities.AccessToken;
-import com.mobilefintech09.dripbank.entities.client;
-
-import java.util.List;
+import com.mobilefintech09.dripbank.entities.ClientResponse;
+import com.mobilefintech09.dripbank.entities.DataResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiService {
 
@@ -24,14 +24,19 @@ public interface ApiService {
     @POST("logout")
     Call<AccessToken> logout();
 
+    @POST("refresh")
+    @FormUrlEncoded
+    Call<AccessToken> reAuthenticateClient(@Field("refresh_token") String refreshToken);
+
     @GET("client/{id}")
-    Call<AccessToken> getClient();
+    Call<DataResponse> getClient(@Path("id") String  id );
 
     @POST("client")
     @FormUrlEncoded
-    Call<AccessToken> client(
+    Call<ClientResponse> client(
             @Field("first_name") String first_name,
             @Field("last_name") String last_name,
+            @Field("account_type") String account_type,
             @Field("bvn") String bvn,
             @Field("phone") String phone,
             @Field("email") String email,
@@ -39,6 +44,8 @@ public interface ApiService {
             @Field("date_of_birth") String date_of_birth,
             @Field("gender") String gender);
 
+    @GET("account/{id}")
+    Call<AccessToken> account(@Path("id") int account_number);
 
     @POST("account/{id}/deposit")
     @FormUrlEncoded

@@ -21,73 +21,61 @@
             android:textAlignment="center"
             android:textSize="22sp" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/_234"
-            android:id="@+id/phone"
-            >
-            <com.google.android.material.textfield.TextInputEditText
+
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
+                android:hint="@string/_234"
+                android:id="@+id/phone"
+                android:inputType="phone"
                 android:maxLines="1"
                 android:drawablePadding="10dp"
                 android:imeOptions="actionNext"
                 />
-        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/address"
-            android:id="@+id/address">
-            <com.google.android.material.textfield.TextInputEditText
+
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/address"
+                android:id="@+id/address"
                 android:inputType="textMultiLine"
                 android:drawablePadding="10dp"
                 android:imeOptions="actionNext"
                 />
-        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/date_of_birth"
-            android:id="@+id/dob">
-            <com.google.android.material.textfield.TextInputEditText
+
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/date_of_birth"
+                android:id="@+id/dob"
                 android:maxLines="1"
                 android:imeOptions="actionDone"
                 android:inputType="date"
                 android:drawablePadding="10dp"
                 />
-        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/gender"
-            android:id="@+id/gender">
-            <com.google.android.material.textfield.TextInputEditText
+
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/gender"
+                android:id="@+id/gender"
                 android:maxLines="1"
                 android:imeOptions="actionDone"
                 android:inputType="text"
                 android:drawablePadding="10dp"
                 />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
+            android:id="@+id/btn_process"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:id="@+id/btn_process"
-            android:text="@string/process"
-            style="@style/Widget.AppCompat.Button.Colored"/>
+            android:onClick="onCreateOptionsMenu"
+            android:text="@string/process" />
         <ProgressBar
             android:layout_width="wrap_content"
             android:visibility="invisible"

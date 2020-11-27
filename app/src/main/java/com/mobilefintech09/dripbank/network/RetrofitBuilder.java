@@ -1,6 +1,5 @@
 package com.mobilefintech09.dripbank.network;
 
-import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.mobilefintech09.dripbank.BuildConfig;
 
@@ -15,9 +14,11 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class RetrofitBuilder {
 
+
     private static final String BASE_URL = "https://blooming-retreat-58614.herokuapp.com/api/v1/";
     private static final OkHttpClient client = buildClient();
     private static final Retrofit retrofit = buildRetrofit(client);
+
 
     private static Retrofit buildRetrofit(OkHttpClient client) {
         return new Retrofit.Builder()
@@ -26,9 +27,32 @@ public class RetrofitBuilder {
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build();
     }
+
     public static <T> T createService(Class<T> service){
         return retrofit.create(service);
     }
+
+    public static <T> T createAuthService(Class<T> service, TokenManager tokenManager){
+            OkHttpClient httpClient = client.newBuilder().addInterceptor(new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+
+                    Request request = chain.request();
+                    Request.Builder builder= request.newBuilder();
+
+                    if(tokenManager.getToken().getAccessToken() != null) {
+                        builder.addHeader("Authorization", "Bearer " + tokenManager.getToken().getAccessToken());
+                    }
+                    request = builder.build();
+                    return chain.proceed(request);
+                }
+            }).authenticator(RetrofitAuthenticator.getInstance(tokenManager))
+                    .build();
+           Retrofit newRetrofit = retrofit.newBuilder().client(httpClient).build();
+           return newRetrofit.create(service);
+
+    }
+
 
     private static OkHttpClient buildClient(){
         OkHttpClient.Builder builder= new OkHttpClient.Builder()
