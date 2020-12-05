@@ -70,4 +70,11 @@
     <string name="process">Process</string>
     <string name="bvn">BVN</string>
     <string name="space"> </string>
+    <string name="choose_file">Pick a file</string>
+    <string name="pin">Pin</string>
+    <string name="cvv">cvv</string>
+    <string name="card_expiry">Card Expiry</string>
+    <string name="card_number">Card Number</string>
+    <string name="expiry">09/20</string>
+    <string name="logo_description">DripBank Logo</string>
 </resources>

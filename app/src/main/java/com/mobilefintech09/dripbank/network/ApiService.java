@@ -1,14 +1,20 @@
 package com.mobilefintech09.dripbank.network;
 
 import com.mobilefintech09.dripbank.entities.AccessToken;
+import com.mobilefintech09.dripbank.entities.AccountResponse;
+import com.mobilefintech09.dripbank.entities.Client;
 import com.mobilefintech09.dripbank.entities.ClientResponse;
 import com.mobilefintech09.dripbank.entities.DataResponse;
+import com.mobilefintech09.dripbank.entities.ImageResponse;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -31,6 +37,10 @@ public interface ApiService {
     @GET("client/{id}")
     Call<DataResponse> getClient(@Path("id") String  id );
 
+    @POST("client/upload")
+    @Multipart
+    Call<ImageResponse> uploadAvatar(@Part MultipartBody.Part avatar);
+
     @POST("client")
     @FormUrlEncoded
     Call<ClientResponse> client(
@@ -49,8 +59,9 @@ public interface ApiService {
 
     @POST("account/{id}/deposit")
     @FormUrlEncoded
-    Call<AccessToken> accountDeposit(
-            @Field("amount") String amount
+    Call<AccountResponse> accountDeposit(
+            @Path("id") String  id,
+            @Field("amount") String amount, @Field("account_number") String account, @Field("client_pin") String pin
     );
 
 

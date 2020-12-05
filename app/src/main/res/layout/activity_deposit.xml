@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.slideshow.SlideshowFragment">
 
-    <TextView
+    <EditText
         android:id="@+id/text_slideshow"
         android:layout_width="350dp"
         android:layout_height="35dp"
@@ -14,9 +14,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="#EDEDED"
-        android:textAlignment="center"
+        android:drawableStart="@android:drawable/ic_input_add"
+        android:drawablePadding="5dp"
+        android:hint="@string/account_number"
+        android:imeOptions="actionNext"
+        android:inputType="text"
         android:textSize="20sp"
-        android:text="@string/account_number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
@@ -24,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.454" />
 
-    <TextView
+    <EditText
         android:id="@+id/text_slideshow2"
         android:layout_width="350dp"
         android:layout_height="35dp"
@@ -32,9 +35,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="#EDEDED"
-        android:textAlignment="center"
+        android:drawableStart="@drawable/deposit_icon"
+        android:drawablePadding="10dp"
+        android:hint="@string/amount"
+        android:imeOptions="actionNext"
+        android:inputType="text"
         android:textSize="20sp"
-        android:text="@string/amount"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
@@ -42,15 +48,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.59" />
 
-    <TextView
+    <EditText
         android:id="@+id/text_slideshow3"
         android:layout_width="350dp"
         android:layout_height="35dp"
         android:layout_marginTop="8dp"
         android:background="#EDEDED"
-        android:textAlignment="center"
+        android:drawableStart="@drawable/lock_icon"
+        android:drawablePadding="10dp"
+        android:hint="@string/pin"
+        android:imeOptions="actionNext"
+        android:inputType="textPassword"
         android:textSize="20sp"
-        android:text="Pin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"

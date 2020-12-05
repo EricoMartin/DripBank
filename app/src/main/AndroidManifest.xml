@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.mobilefintech09.dripbank">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -16,30 +17,65 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AccountRegister2Activity"></activity>
-        <activity android:name=".AccountRegisterActivity" />
-        <activity android:name=".FAQActivity" />
-        <activity android:name=".TransferActivity" />
-        <activity android:name=".WithdrawActivity" />
-        <activity android:name=".DepositActivity" />
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".CardDetailsActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
+
+        </activity>
+        <activity android:name=".AccountRegister2Activity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
+            />
+        <activity android:name=".AccountRegisterActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".FAQActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".TransferActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".WithdrawActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".DepositActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".ChatActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".ProfileActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
+            />
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".EntryActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".RegisterActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+
+        <meta-data
+            android:name="co.paystack.android.PublicKey"
+            android:value="pk_test_0797ad09978ede10df29820b21608398c087625a" />
     </application>
 
 </manifest>

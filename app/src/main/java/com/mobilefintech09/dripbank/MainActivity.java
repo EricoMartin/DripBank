@@ -5,12 +5,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.mobilefintech09.dripbank.entities.AccessToken;
 import com.mobilefintech09.dripbank.network.ApiService;
 import com.mobilefintech09.dripbank.network.RetrofitBuilder;
+import com.mobilefintech09.dripbank.network.SharedPreferenceManager;
 import com.mobilefintech09.dripbank.network.TokenManager;
+import com.squareup.picasso.Picasso;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -34,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
     ApiService service;
     Call<AccessToken> call;
     TokenManager mTokenManager;
-
+    SharedPreferenceManager mSharedPreferenceManager;
+    TextView mTextView;
+    ImageView mImageView;
 
     List<Integer> iconList = new ArrayList<>();
     List<String> textList = new ArrayList<>();
@@ -69,6 +75,19 @@ public class MainActivity extends AppCompatActivity {
 
         service = RetrofitBuilder.createService(ApiService.class);
         mTokenManager = TokenManager.getInstance(getSharedPreferences("prefs", MODE_PRIVATE));
+        mSharedPreferenceManager= SharedPreferenceManager.getInstance(getSharedPreferences("dripbankuserdetails", MODE_PRIVATE), getApplicationContext());
+
+        mTextView = findViewById(R.id.text_user);
+        mImageView= findViewById(R.id.imageView4);
+        mTextView.setText("Welcome, " + mSharedPreferenceManager.getNewClient().getFirstName());
+        String image = mSharedPreferenceManager.getNewClient().getAvatar();
+
+        if(image != null){
+            Picasso.get()
+                    .load(image)
+                    .centerCrop()
+                    .fit().into(mImageView);
+        }
 
         if(mTokenManager.getToken() == null){
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);

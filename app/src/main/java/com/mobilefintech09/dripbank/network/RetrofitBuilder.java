@@ -33,26 +33,51 @@ public class RetrofitBuilder {
     }
 
     public static <T> T createAuthService(Class<T> service, TokenManager tokenManager){
-            OkHttpClient httpClient = client.newBuilder().addInterceptor(new Interceptor() {
-                @Override
-                public Response intercept(Chain chain) throws IOException {
+        OkHttpClient httpClient = client.newBuilder().addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
 
-                    Request request = chain.request();
-                    Request.Builder builder= request.newBuilder();
+                Request request = chain.request();
+                Request.Builder builder= request.newBuilder();
 
-                    if(tokenManager.getToken().getAccessToken() != null) {
-                        builder.addHeader("Authorization", "Bearer " + tokenManager.getToken().getAccessToken());
-                    }
-                    request = builder.build();
-                    return chain.proceed(request);
+                if(tokenManager.getToken().getAccessToken() != null) {
+                    builder.addHeader("Authorization", "Bearer " + tokenManager.getToken().getAccessToken())
+                            .header("Content-type", "image")
+                            .header("Content-type", "multipart/form-data")
+                            .header("Content-type", "application/json");
                 }
-            }).authenticator(RetrofitAuthenticator.getInstance(tokenManager))
-                    .build();
-           Retrofit newRetrofit = retrofit.newBuilder().client(httpClient).build();
-           return newRetrofit.create(service);
+                request = builder.build();
+                return chain.proceed(request);
+            }
+        }).authenticator(RetrofitAuthenticator.getInstance(tokenManager))
+                .build();
+        Retrofit newRetrofit = retrofit.newBuilder().client(httpClient).build();
+        return newRetrofit.create(service);
 
     }
 
+
+    public static <T> T createServiceAuth(Class<T> service, TokenManager tokenManager){
+        OkHttpClient httpClient = client.newBuilder().addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+
+                Request request = chain.request();
+                Request.Builder builder= request.newBuilder();
+
+                if(tokenManager.getToken().getAccessToken() != null) {
+                    builder.addHeader("Authorization", "Bearer " + tokenManager.getToken().getAccessToken())
+                            .header("Content-type", "multipart/form-data");
+                }
+                request = builder.build();
+                return chain.proceed(request);
+            }
+        }).authenticator(RetrofitAuthenticator.getInstance(tokenManager))
+                .build();
+        Retrofit newRetrofit = retrofit.newBuilder().client(httpClient).build();
+        return newRetrofit.create(service);
+
+    }
 
     private static OkHttpClient buildClient(){
         OkHttpClient.Builder builder= new OkHttpClient.Builder()
